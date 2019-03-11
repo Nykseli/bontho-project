@@ -28,15 +28,15 @@ public class BeerForm extends FormLayout {
 
     private BeerService service = BeerService.getInstance();
     private Beer beer;
-    private MainView mainView;
+    private BeerView beerview;
 
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
     private Binder<Beer> binder = new Binder<>(Beer.class);
 
-    public BeerForm(MainView mainView) {
-        this.mainView = mainView;
+    public BeerForm(BeerView beerview) {
+        this.beerview = beerview;
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
 
         save.addClickListener(e -> this.save());
@@ -72,13 +72,13 @@ public class BeerForm extends FormLayout {
 
     public void delete() {
         service.delete(this.beer);
-        mainView.updateList();
+        beerview.updateList();
         setBeer(null);
     }
 
     public void save() {
         service.save(this.beer);
-        mainView.updateList();
+        beerview.updateList();
         setBeer(null);
     }
 
