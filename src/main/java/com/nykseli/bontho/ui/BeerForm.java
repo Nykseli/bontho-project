@@ -1,8 +1,6 @@
 package com.nykseli.bontho.ui;
 
-import com.nykseli.bontho.backend.Beer;
-import com.nykseli.bontho.backend.BeerService;
-import com.nykseli.bontho.backend.BeerStatus;
+import com.nykseli.bontho.entity.Beer;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -23,10 +21,10 @@ public class BeerForm extends FormLayout {
     private TextField brand = new TextField("Brand");
     private TextField name = new TextField("Name");
     private NumberField amount = new NumberField("Amount");
-    private ComboBox<BeerStatus> status = new ComboBox<>("Status");
-    private DatePicker created = new DatePicker("created");
+    private ComboBox<Integer> status = new ComboBox<>("Status");
+    private DatePicker created = new DatePicker("Created");
 
-    private BeerService service = BeerService.getInstance();
+    // private BeerService service = BeerService.getInstance();
     private Beer beer;
     private BeerView beerview;
 
@@ -52,7 +50,9 @@ public class BeerForm extends FormLayout {
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        status.setItems(BeerStatus.values());
+        // TODO: this properly
+        Integer[] col = { 1, 4, 5 };
+        status.setItems(col);
 
         binder.bindInstanceFields(this);
 
@@ -71,15 +71,11 @@ public class BeerForm extends FormLayout {
     }
 
     public void delete() {
-        service.delete(this.beer);
-        beerview.updateList();
-        setBeer(null);
+        // TODO:
     }
 
     public void save() {
-        service.save(this.beer);
-        beerview.updateList();
-        setBeer(null);
+        // TODO:
     }
 
 }

@@ -2,7 +2,7 @@
  * Class for the sql User table
  */
 
-package com.nykseli.bontho.database;
+package com.nykseli.bontho.entity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

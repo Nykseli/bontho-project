@@ -1,5 +1,6 @@
 package com.nykseli.bontho.ui;
 
+import com.nykseli.bontho.database.BeerRepository;
 import com.nykseli.bontho.database.UserRepository;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -16,14 +17,16 @@ public class MainView extends VerticalLayout {
     private static final long serialVersionUID = 1001L;
 
     private final UserRepository userRepository;
+    private final BeerRepository beerRepository;
 
     @Autowired
-    public MainView(UserRepository userRepository) {
+    public MainView(UserRepository userRepository, BeerRepository beerRepository) {
         this.userRepository = userRepository;
+        this.beerRepository = beerRepository;
         // Show the Beer view if user is logged in
         // Show the Login if user is not
         if (LoginView.isLogged()) {
-            BeerView bw = new BeerView();
+            BeerView bw = new BeerView(this.beerRepository);
             bw.setSizeFull();
             add(bw);
         } else {

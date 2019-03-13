@@ -1,7 +1,7 @@
 package com.nykseli.bontho.ui;
 
-import com.nykseli.bontho.database.User;
 import com.nykseli.bontho.database.UserRepository;
+import com.nykseli.bontho.entity.User;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class LoginView extends VerticalLayout {
 
-    // @Autowired
-    // private UserService userService;// = new UserService();
     @Autowired
     private UserRepository userRepository;
 
