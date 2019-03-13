@@ -1,17 +1,31 @@
 package com.nykseli.bontho.ui;
 
+import com.nykseli.bontho.database.User;
+import com.nykseli.bontho.database.UserRepository;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.spring.annotation.UIScope;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+@UIScope
 public class LoginView extends VerticalLayout {
+
+    // @Autowired
+    // private UserService userService;// = new UserService();
+    @Autowired
+    private UserRepository userRepository;
 
     private static final long serialVersionUID = 1003L;
     private static boolean isLogged = false;
+    // private static final Logger LOGGER2 =
+    // Logger.getLogger(LoginView.class.getName());
 
     private LoginForm view = new LoginForm();
 
-    public LoginView() {
+    public LoginView(UserRepository userRepository) {
+        this.userRepository = userRepository;
 
         view.addLoginListener(event -> {
             isLogged = authenticate(event.getUsername(), event.getPassword());
@@ -30,10 +44,28 @@ public class LoginView extends VerticalLayout {
         setSizeFull();
     }
 
+    /**
+     * Check if the username and the password matches
+     *
+     * @param username the username we try to find
+     * @param password the plaintext password
+     * @return boolean for successful on nonsuccessful login
+     */
     private boolean authenticate(String username, String password) {
-        if (username.equals("admin") && password.equals("1234")) {
+
+        // Get user with username from the database
+        User user = userRepository.findByUsername(username);
+
+        // If user is not found
+        if (user == null) {
+            return false;
+        }
+
+        // If the password matches
+        if (user.matchPassword(password)) {
             return true;
         }
+
         return false;
     }
 
