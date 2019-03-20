@@ -1,5 +1,6 @@
 package com.nykseli.bontho.ui;
 
+import com.nykseli.bontho.backend.UserCookie;
 import com.nykseli.bontho.database.BeerRepository;
 import com.nykseli.bontho.database.UserRepository;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -23,13 +24,17 @@ public class MainView extends VerticalLayout {
     public MainView(UserRepository userRepository, BeerRepository beerRepository) {
         this.userRepository = userRepository;
         this.beerRepository = beerRepository;
-        // Show the Beer view if user is logged in
-        // Show the Login if user is not
-        if (LoginView.isLogged()) {
-            BeerView bw = new BeerView(this.beerRepository);
+
+        // Try to get the userId from saved cookie
+        Integer userId = UserCookie.getUserId();
+
+        // If userId exists, show the users BeerView
+        if (userId != null) {
+            BeerView bw = new BeerView(this.beerRepository, userId);
             bw.setSizeFull();
             add(bw);
         } else {
+            // Show the LoginView if there userId from a cookie is not found
             LoginView lw = new LoginView(this.userRepository);
             lw.setSizeFull();
             add(lw);

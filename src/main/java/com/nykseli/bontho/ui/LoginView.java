@@ -1,5 +1,6 @@
 package com.nykseli.bontho.ui;
 
+import com.nykseli.bontho.backend.UserCookie;
 import com.nykseli.bontho.database.UserRepository;
 import com.nykseli.bontho.entity.User;
 import com.vaadin.flow.component.UI;
@@ -16,7 +17,6 @@ public class LoginView extends VerticalLayout {
     private UserRepository userRepository;
 
     private static final long serialVersionUID = 1003L;
-    private static boolean isLogged = false;
     // private static final Logger LOGGER2 =
     // Logger.getLogger(LoginView.class.getName());
 
@@ -26,7 +26,7 @@ public class LoginView extends VerticalLayout {
         this.userRepository = userRepository;
 
         view.addLoginListener(event -> {
-            isLogged = authenticate(event.getUsername(), event.getPassword());
+            boolean isLogged = authenticate(event.getUsername(), event.getPassword());
             if (isLogged) {
                 // Refresh the page and the user will be get the beer grid view
                 UI.getCurrent().getPage().reload();
@@ -43,7 +43,8 @@ public class LoginView extends VerticalLayout {
     }
 
     /**
-     * Check if the username and the password matches
+     * Check if the username and the password matches.
+     * If the login is succesful, save the userId to a cookie
      *
      * @param username the username we try to find
      * @param password the plaintext password
@@ -59,15 +60,13 @@ public class LoginView extends VerticalLayout {
             return false;
         }
 
-        // If the password matches
+        // If the password matches save the userId to a cookie
         if (user.matchPassword(password)) {
+            UserCookie.setLoginCookie(user.getUserId());
             return true;
         }
 
         return false;
     }
 
-    public static boolean isLogged() {
-        return LoginView.isLogged;
-    }
 }

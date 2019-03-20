@@ -4,6 +4,7 @@ package com.nykseli.bontho.ui;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.nykseli.bontho.backend.UserCookie;
 import com.nykseli.bontho.database.BeerRepository;
 import com.nykseli.bontho.entity.Beer;
 import com.vaadin.flow.component.button.Button;
@@ -26,6 +27,11 @@ public class BeerView extends VerticalLayout {
     private static final long serialVersionUID = 1005L;
     private static final Logger LOGGER = Logger.getLogger(BeerView.class.getName());
 
+    /**
+     * userId is the integer from a cookie {@link UserCookie#getUserId()}
+     */
+    private Integer userId;
+
     @Autowired
     private BeerRepository beerRepository;
 
@@ -35,7 +41,8 @@ public class BeerView extends VerticalLayout {
 
     private BeerForm form;
 
-    public BeerView(BeerRepository beerRepository) {
+    public BeerView(BeerRepository beerRepository, Integer userId) {
+        this.userId = userId;
         this.beerRepository = beerRepository;
         this.form = new BeerForm(this);
         filterText.setPlaceholder("Filter by name...");
@@ -72,7 +79,7 @@ public class BeerView extends VerticalLayout {
     }
 
     public void updateList() {
-        List<Beer> beers = beerRepository.findByUserId(1);
+        List<Beer> beers = beerRepository.findByUserId(this.userId);
         grid.setItems(beers);
     }
 
