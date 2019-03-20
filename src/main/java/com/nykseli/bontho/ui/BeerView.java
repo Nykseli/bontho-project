@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.nykseli.bontho.backend.UserCookie;
 import com.nykseli.bontho.database.BeerRepository;
 import com.nykseli.bontho.entity.Beer;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -59,7 +60,17 @@ public class BeerView extends VerticalLayout {
         // grid.asSingleSelect().clear();
         // form.setBeer(new Beer());
         // });
-        HorizontalLayout toolbar = new HorizontalLayout(filtering, addCustomerBtn);
+
+        Button logOutButton = new Button("Logout");
+        logOutButton.addClickListener(e -> {
+            // Log out by destroying the cookie and refreshing the page.
+            // When page is refreshed and the cookie is no longer found,
+            // user sees the LoginView
+            UserCookie.destroyCookie();
+            UI.getCurrent().getPage().reload();
+        });
+
+        HorizontalLayout toolbar = new HorizontalLayout(filtering, addCustomerBtn, logOutButton);
 
         grid.setColumns("brand", "name", "amount", "status");
 
