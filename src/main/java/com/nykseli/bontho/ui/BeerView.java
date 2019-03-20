@@ -109,7 +109,11 @@ public class BeerView extends VerticalLayout {
     }
 
     public void deleteBeer(Beer beer) {
-        beerRepository.delete(beer);
+        // If beer is null or it doesn't have userId it's not in database yet
+        // so we cannot delete it
+        if (beer != null && beer.getUserId() != null) {
+            beerRepository.delete(beer);
+        }
     }
 
 }
