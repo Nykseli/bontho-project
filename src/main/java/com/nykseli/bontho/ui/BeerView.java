@@ -71,7 +71,7 @@ public class BeerView extends VerticalLayout {
 
         HorizontalLayout toolbar = new HorizontalLayout(filtering, addCustomerBtn, logOutButton);
 
-        grid.setColumns("brand", "name", "amount", "status");
+        grid.setColumns("brand", "name", "amount", "statusText");
 
         HorizontalLayout main = new HorizontalLayout(grid, form);
         main.setSizeFull();

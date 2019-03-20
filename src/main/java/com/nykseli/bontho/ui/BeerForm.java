@@ -1,5 +1,6 @@
 package com.nykseli.bontho.ui;
 
+import com.nykseli.bontho.backend.BeerStatus;
 import com.nykseli.bontho.entity.Beer;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,7 +22,7 @@ public class BeerForm extends FormLayout {
     private TextField brand = new TextField("Brand");
     private TextField name = new TextField("Name");
     private NumberField amount = new NumberField("Amount");
-    private ComboBox<Integer> status = new ComboBox<>("Status");
+    private ComboBox<String> status = new ComboBox<>("Status");
     private DatePicker created = new DatePicker("Created");
 
     // private BeerService service = BeerService.getInstance();
@@ -50,11 +51,11 @@ public class BeerForm extends FormLayout {
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        // TODO: this properly
-        Integer[] col = { 1, 4, 5 };
-        status.setItems(col);
+        status.setItems(BeerStatus.statusText);
 
-        binder.bindInstanceFields(this);
+        // Use updateBeerValues and setFields instead of binding
+        // so we can handle status texts better
+        // binder.bindInstanceFields(this);
 
         setBeer(null);
 
@@ -66,6 +67,8 @@ public class BeerForm extends FormLayout {
         boolean enabled = beer != null;
         setVisible(enabled);
         if (enabled) {
+            // Set the field values to be the current beerobject values
+            setFields();
             this.brand.focus();
         }
     }
@@ -80,9 +83,37 @@ public class BeerForm extends FormLayout {
 
     public void save() {
         if (beer != null) {
+            // Get the values form before saving
+            updateBeerValues();
             beerview.saveBeer(beer);
             beerview.updateList();
             setBeer(null);
+        }
+    }
+
+    /**
+     * Updates the current beer object with the values from the form fields
+     */
+    private void updateBeerValues() {
+        if (beer != null) {
+            beer.setBrand(brand.getValue());
+            beer.setName(name.getValue());
+            beer.setAmount(amount.getValue());
+            beer.setStatus(BeerStatus.getStatusIndex(status.getValue()));
+            beer.setCreated(created.getValue());
+        }
+    }
+
+    /**
+     * Set the form field values with the current beer values
+     */
+    private void setFields() {
+        if (beer != null) {
+            brand.setValue(beer.getBrand());
+            name.setValue(beer.getName());
+            amount.setValue(beer.getAmount());
+            status.setValue(beer.getStatusText());
+            created.setValue(beer.getCreated());
         }
     }
 

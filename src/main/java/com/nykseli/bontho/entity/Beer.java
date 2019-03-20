@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.nykseli.bontho.backend.BeerStatus;
+
 @Entity
 public class Beer {
 
@@ -182,6 +184,20 @@ public class Beer {
      */
     public Integer getStatus() {
         return beerStatus;
+    }
+
+
+    /**
+     * Get the beerStatus traslated to text
+     *
+     * @return the translated String
+     */
+    public String getStatusText() {
+        if (beerStatus != null) {
+            return BeerStatus.statusText[beerStatus];
+        }
+
+        return "";
     }
 
     /**
