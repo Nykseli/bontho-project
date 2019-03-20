@@ -54,12 +54,11 @@ public class BeerView extends VerticalLayout {
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
         HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
 
-        Button addCustomerBtn = new Button("TODO: Add new Beer");
-        // TODO:
-        // addCustomerBtn.addClickListener(e -> {
-        // grid.asSingleSelect().clear();
-        // form.setBeer(new Beer());
-        // });
+        Button addCustomerBtn = new Button("Add new Beer");
+        addCustomerBtn.addClickListener(e -> {
+            grid.asSingleSelect().clear();
+            form.setBeer(new Beer());
+        });
 
         Button logOutButton = new Button("Logout");
         logOutButton.addClickListener(e -> {
@@ -94,7 +93,18 @@ public class BeerView extends VerticalLayout {
         grid.setItems(beers);
     }
 
+    /**
+     * Update old beer entry or create new one
+     *
+     * @param beer Beer we want to save
+     */
     public void saveBeer(Beer beer) {
+        // If a new beer is created, we need to give it the userId of the
+        // user that is currently using this beerView
+        if (beer.getId() == null){
+            beer.setUserId(userId);
+        }
+
         beerRepository.save(beer);
     }
 

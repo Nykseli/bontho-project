@@ -68,7 +68,7 @@ public class Beer {
     private LocalDate created;
 
     /**
-     * Status of the beer.
+     * Status of the beer with a default value of 0
      * <p>
      * 0: bought
      * 1: chilled
@@ -78,8 +78,9 @@ public class Beer {
      * SQL:
      * beer_status INT DEFAULT 0
      */
-    @Column(columnDefinition = "default '0'")
-    private Integer beerStatus;
+    @Column
+    @GeneratedValue
+    private Integer beerStatus = 0;
 
     public Beer(Integer userId, String brand, String name, Integer amount, LocalDate created, Integer beerStatus) {
         this.userId = userId;
@@ -90,7 +91,7 @@ public class Beer {
         this.beerStatus = beerStatus;
     }
 
-    protected Beer() {
+    public Beer() {
         // No arg constructor for the JPA
     }
 
@@ -100,6 +101,24 @@ public class Beer {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * Get the value of userId
+     *
+     * @return Integer the value of userId
+     */
+    public Integer getUserId() {
+        return this.userId;
+    }
+
+    /**
+     * Set the value of userId
+     *
+     * @param userId new value of userId
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
