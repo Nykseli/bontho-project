@@ -71,11 +71,19 @@ public class BeerForm extends FormLayout {
     }
 
     public void delete() {
-        // TODO:
+        if (beer != null) {
+            beerview.deleteBeer(beer);
+            beerview.updateList();
+            setBeer(null);
+        }
     }
 
     public void save() {
-        // TODO:
+        if (beer != null) {
+            beerview.saveBeer(beer);
+            beerview.updateList();
+            setBeer(null);
+        }
     }
 
 }

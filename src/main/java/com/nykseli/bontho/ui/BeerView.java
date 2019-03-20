@@ -94,4 +94,12 @@ public class BeerView extends VerticalLayout {
         grid.setItems(beers);
     }
 
+    public void saveBeer(Beer beer) {
+        beerRepository.save(beer);
+    }
+
+    public void deleteBeer(Beer beer) {
+        beerRepository.delete(beer);
+    }
+
 }
